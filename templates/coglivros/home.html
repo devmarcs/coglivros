@@ -1,0 +1,38 @@
+{% extends 'coglivros/base_coglivros.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+<div class="container__titulo">
+    {% include 'coglivros/partials/_menu_superior.html' %}
+    <h1 class="titulo">Bem vindo {{ request.user.username }}</h1>
+
+
+    <!-- partial:index.partial.html -->
+
+    <ul>
+        {% if livros %}
+        {% for livro in livros %}
+        <li>
+
+            <figure>
+                <a href="#">
+                    <img src="{% static '/img/coglivros/' %}{{ livro.foto }}">
+                </a>
+            </figure>
+            <div class="container__textos">
+                <p class="nome__livro">Nome do Livro: {{ livro.nome }}</p>
+                <p class="genero__livro">Gênero do livro: {{ livro.genero }}</p>
+                <p class="autor__genero">Autor do livro: {{ livro.autor }}</p>
+                <p class="sinopse">Sinope: {{ livro.sinopse }}</p>
+            </div>
+        </li>
+        {% endfor %}
+        {% else %}
+        {% endif %}
+    </ul>
+</div>
+<!-- partial -->
+{% endblock %}
