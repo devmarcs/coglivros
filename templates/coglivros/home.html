@@ -1,38 +1,88 @@
 {% extends 'coglivros/base_coglivros.html' %}
+
 {% load static %}
 
-
-
-
 {% block content %}
-<div class="container__titulo">
-    {% include 'coglivros/partials/_menu_superior.html' %}
-    <h1 class="titulo">Bem vindo {{ request.user.username }}</h1>
-
-
-    <!-- partial:index.partial.html -->
-
-    <ul>
-        {% if livros %}
-        {% for livro in livros %}
-        <li>
-
-            <figure>
-                <a href="#">
-                    <img src="{% static '/img/coglivros/' %}{{ livro.foto }}">
-                </a>
-            </figure>
-            <div class="container__textos">
-                <p class="nome__livro">Nome do Livro: {{ livro.nome }}</p>
-                <p class="genero__livro">Gênero do livro: {{ livro.genero }}</p>
-                <p class="autor__genero">Autor do livro: {{ livro.autor }}</p>
-                <p class="sinopse">Sinope: {{ livro.sinopse }}</p>
+<div class="pagina-inicial">
+    <header class="cabecalho">
+        <img src="{% static '/assets/logo/cog.png' %}" style="width: 150px;" alt="Logo da Alura Space" />
+        <div class="cabecalho__busca">
+            <div class="busca__fundo">
+                <form action="#">
+                    <input class="busca__input" type="text" name="buscar" placeholder="Digite o nome do livro ">
+                    <button type="submit">
+                        <img class="busca__icone" src="{% static '/assets/ícones/1x/search.png' %}"
+                            alt="ícone de search">
+                    </button>
+                </form>
             </div>
-        </li>
-        {% endfor %}
-        {% else %}
-        {% endif %}
-    </ul>
+        </div>
+    </header>
+    <main class="principal">
+        <section class="menu-lateral">
+            <nav class="menu-lateral__navegacao">
+                <a href="{% url 'home' %}"><img src="{% static '/assets/ícones/1x/Home - ativo.png' %}"> Home</a>
+                <a href="{% url 'cadastro' %}"><img class="cadastro" src="{% static '/assets/ícones/1x/cadastro.png' %}"> Cadastro</a>
+                <a href="{% url 'login' %}"><img src="{% static '/assets/ícones/1x/Novas - inativo.png' %}"> Login</a>
+                <a href="#"><img src="{% static '/assets/ícones/1x/Surpreenda-me - inativo.png' %}"> Surpreenda-me</a>
+                
+            </nav>
+        </section>
+        <section class="conteudo">
+            <section class="banner">
+                <img class="banner__imagem" src="{% static '/assets/imagens/Banner(2).png' %}" alt="banner Alura Space">
+                <h1 class="banner__titulo"> A galeria mais completa de fotos do espaço!</h1>
+            </section>
+            <section class="tags">
+                <p class="tags__titulo">Busque por tags:</p>
+                <ul class="tags__lista">
+                    <li class="tags__tag">Romance</li>
+                    <li class="tags__tag">Aventura</li>
+                    <li class="tags__tag">Suspense</li>
+                    <li class="tags__tag">Ficção</li>
+                </ul>
+            </section>
+            <section class="galeria">
+                <div class="cards">
+                    <h2 class="cards__titulo">Bem vindo {{request.user.username}}</h2>
+                    <ul class="cards__lista">
+                        {% if livros %}
+                        {% for livro in livros %}
+                        <li class="card">
+                            <a href="{% url 'livros' livro.id %}">
+                                {% if fotografia.foto == "" or fotografia.foto == null %}
+                                <img class="card__imagem" src="{% static '/assets/imagens/galeria/notfound.jpg'%}"
+                                    alt="foto">
+                                {% else %}
+                                <img class="card__imagem" src="{{ livro.foto }}" alt="foto">
+                                {% endif %}
+                            </a>
+                            <span class="card__tag">{{livro.genero}}</span>
+                            <div class="card__info">
+                                <p class="card__titulo">{{ livro.nome }}</p>
+                                <div class="card__texto">
+
+                                    <p class="card__descricao">{{ livro.autor }}</p>
+                                    <span>
+                                        <img src="{% static '/assets/ícones/1x/favorite_outline.png' %}"
+                                            alt="ícone de coração">
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                        {% else %}
+                        <div class="imagem__texto">
+                            <p>
+                                Fotografias não encontradas
+                            </p>
+                        </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            </section>
+        </section>
+    </main>
 </div>
-<!-- partial -->
+
 {% endblock %}
