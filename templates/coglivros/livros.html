@@ -2,17 +2,29 @@
 {% load static %}
 
 {% block content %}
+{% for message in messages %}
+<div class="container-fluid p-4 m-1 d-flex justify-content-center">
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ message }}
+    </div>
+</div>
+{% endfor %}
 <div class="container__titulo">
     {% include 'coglivros/partials/_menu_superior.html' %}
     <h1 class="titulo">{{livro.nome}}</h1>
-    <img class="imagem" src="{% static '/img/coglivros/' %}{{ livro.foto }}">
+    {% if livro.foto == "" or livro.foto == null %}
+    <img class="card__imagem" src="{% static '/assets/imagens/galeria/notfound.jpg'%}" alt="foto">
+    {% else %}
+    <img class="card__imagem" src="{{ livro.foto.url }}" alt="foto">
+    {% endif %}
     <div class="container__textos">
         <p class="nome__livro">Nome do Livro: {{ livro.nome }}</p>
         <p class="genero__livro">Gênero do livro: {{ livro.genero }}</p>
         <p class="autor__genero">Autor do livro: {{ livro.autor }}</p>
         <p class="sinopse">Sinope: {{ livro.sinopse }}</p>
     </div>
-</div> 
+</div>
 
 
 
